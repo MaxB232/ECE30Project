@@ -2,7 +2,7 @@
 //     TEAM  INFO
 // Group member 1 name: Max Bayer
 // Group member 1 PID: A18238721
-// Group member 2 name:
+// Group member 2 name:Eduardo Hernandez
 // Group member 2 PID:
 // ========================================================================================
 
