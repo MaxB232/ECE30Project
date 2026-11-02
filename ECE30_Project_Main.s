@@ -225,12 +225,12 @@ getMemoAddr:
 
         //YOUR CODE STARTS HERE
 
-        MUL X4, X1, X3        //
-        ADD X4, X4, X2
-        LSL X4, X4, #3
-        ADD X0, X0, X4
+        MUL X4, X1, X3        //Entries before row i
+        ADD X4, X4, X2        //Index of entry within entire table
+        LSL X4, X4, #3        //Convert index to bytes (x8)
+        ADD X0, X0, X4        //Save base + byte offset
 
-        BR     LR                 // placeholder so the file loads; replace with your code
+        BR     LR             //Return to caller
 
         //YOUR CODE ENDS HERE
 
