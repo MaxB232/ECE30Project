@@ -195,11 +195,11 @@ max2:
 
         //YOUR CODE STARTS HERE
 
-        CMP X0, X1
-        B.GT endmax2
-        ADD X0, X1, XZR
+        CMP X0, X1                //Compare X0 (a) and X1 (b) as signed values
+        B.GT endmax2              //Branch to endmax2 if  a > b 
+        ADD X0, X1, XZR           //else: Return b by copying it into X0
         
-endmax2:BR     LR                 // placeholder so the file loads; replace with your code
+endmax2:BR     LR                 //Return to caller 
 
 
         //YOUR CODE ENDS HERE
@@ -225,7 +225,7 @@ getMemoAddr:
 
         //YOUR CODE STARTS HERE
 
-        MUL X4, X1, X3
+        MUL X4, X1, X3        //
         ADD X4, X4, X2
         LSL X4, X4, #3
         ADD X0, X0, X4
