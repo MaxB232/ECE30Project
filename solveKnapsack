@@ -1,1 +1,57 @@
+////////////////////////////////
+//                            //
+//       solveKnapsack        //
+//                            //
+////////////////////////////////
+solveKnapsack:
+        //  Input:
+        //  X0: The address of (pointer to) the weights array.
+        //  X1: The address of (pointer to) the values array.
+        //  X2: The number of available items i.
+        //  X3: The remaining capacity.
+        //  X4: The address of (pointer to) the memo table.
+        //  X5: The row stride of the memo table.
+        //
+        //  Output:
+        //  X0: The maximum value F(i, capacity).
 
+        //YOUR CODE STARTS HERE
+
+        SUBI SP, SP, #		//Make space for saved registers ----note----Find new # for displacement
+        STUR FP, [SP, #0]       //Save caller's frame pointer
+        STUR LR, [SP, #8]       //Save return address
+        STUR X20, [SP, #24]     //Save original X20
+        STUR X21, [SP, #32]     //Save original X21
+        STUR X22, [SP, #40]     //Save original X22
+        STUR X23, [SP, #48]		//Save original X23
+        STUR X24, [SP, #56]     //Save original X24
+        STUR X25, [SP, #64]     //Save original X25
+//-maybe delete inbetween
+        STUR X19, [SP, #16]     //Save original X19
+        STUR X26, [SP, #72]     //Save original X26
+//-
+        ADDI FP, SP, #        	//Set frame pointer         ----note----Adjust accordingly
+
+        ADD X20, X0, XZR	//Save The address of (pointer to) the weights array
+        ADD X21, X1, XZR        //Save The address of (pointer to) the values array
+        ADD X22, X2, XZR        //Save The number of available items i
+        ADD X23, X3, XZR        //Save remaining capacity
+        ADD X24, X4, XZR        //Save memo address
+        ADD X25, X5, XZR        //Save row stride
+
+        //Return Stored result if already computed
+        					//Setting up Parameters
+        ADD X0, X24, XZR		// X0 = Memo addr
+        ADD X1, X22, XZR		// X1 = # of available items i
+        ADD X2, X23, XZR		// X2 = Remaining Capacity
+        ADD X3, X25, XZR		// X3 = Row Stride
+        BL getMemoAddr			// Getting address of the memo entry at row i, column capacity
+        LDUR X0, [X0, #0]		// X0 = Getting value memo table
+        
+
+
+
+        BR     LR                 // placeholder so the file loads; replace with your code
+
+
+        //YOUR CODE ENDS HERE
