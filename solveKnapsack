@@ -47,15 +47,14 @@ solveKnapsack:
         BL getMemoAddr			// Getting address of the memo entry at row i, column capacity
         ADD X26, X0, XZR		// Saving address into x26
         LDUR X0, [X26, #0]		// X0 = Getting value memo table
-        SUBI X1, X1, #1 		// If X0 != -1 go to solveKnapsackEnd
-        CMP X0, X1
-        B.EQ solveKnapsackEnd
+        ADDI X9, X0, #1 		// If X0 != -1 go to solveKnapsackEnd
+        CBNZ X9, solveKnapsackEnd
 
         				//Base Case: No items or no capacity
         ADD X0, XZR, XZR		// if ( i == 0 || capacity == 0) return 0
         CMPI X22, #0
         B.EQ solveKnapsackEnd
-        CMPI X3, #0
+        CMPI X23, #0
         B.EQ solveKnapsackEnd 
 
         				//Option 1: Exclude item i-1
@@ -68,7 +67,7 @@ solveKnapsack:
         ADD X5, X25, XZR
         BL solveKnapsack	// Now X0 is set to the option 1's return
         ADD X19, X0, XZR	// X19 = skip
-// Might need save X0 somewhere
+
 
         				//Option 2: Include item i-1, if it fits
 // Not sure if I am using list correctly 
@@ -90,21 +89,18 @@ solveKnapsack:
         	SUBI X2, X22, #1 	// x2 = i-1
         	LSL X2, X2, #3 		// X2 = off set (i-1)*8
         	ADD X3, X21, XZR	// X3 = pointer to values list
-        	ADD X3, X3, X2 		// X3 = &weights[i-1]
-        	LDUR X1, [X3, #0]	// X19 = *values[i-1]
+        	ADD X3, X3, X2 		// X3 = &values[i-1]
+        	LDUR X1, [X3, #0]	// X1 = *values[i-1]
 
         					//Setting up params for max2
         	ADD X1, X0, X1 		// X0 = take
         	ADD X0, X19, XZR	// x1 = skip
         	BL max2				// X0 set to best
-solveKnapsackSkip:
-
-		// Save best in *slot
-		STUR X0, [X26, #0]
-		
+solveKnapsackSkip:	
 
 
-solveKnapsackEnd:   
+solveKnapsackEnd:
+		STUR X0, [X26, #0]  // Save best in *slot
 		LDUR X26, [SP, #72]	//Restore original X26
         LDUR X25, [SP, #64]     //Restore original X25
         LDUR X24, [SP, #56]     //Restore original X24
@@ -116,6 +112,6 @@ solveKnapsackEnd:
         LDUR LR, [SP, #8]       //Restore return address
         LDUR FP, [SP, #0]       //Restore caller's frame pointer
         ADDI SP, SP, #96        //Restore stack pointer
-        BR LR					//Return to caller
+       	BR LR					//Return to caller
        
         //YOUR CODE ENDS HERE
