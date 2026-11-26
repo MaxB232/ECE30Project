@@ -288,15 +288,15 @@ solveKnapsack:
         BL getMemoAddr                  // Getting address of the memo entry at row i, column capacity
         ADD X26, X0, XZR                // Saving address into x26
         LDUR X0, [X26, #0]              // X0 = Getting value memo table
-        ADDI X9, X0, #1                 // If X0 != -1 go to solveKnapsackEnd
-        CBNZ X9, solveKnapsackEnd
+        ADDI X9, X0, #1                 // If X0 != -1 go to sk_End
+        CBNZ X9, sk_End
 
                                         //Base Case: No items or no capacity
         ADD X0, XZR, XZR                // if ( i == 0 || capacity == 0) return 0
         CMPI X22, #0
-        B.EQ solveKnapsackEnd
+        B.EQ sk_End
         CMPI X23, #0
-        B.EQ solveKnapsackEnd 
+        B.EQ sk_End 
 
                                         //Option 1: Exclude item i-1
                                                 //Setting up params
@@ -318,7 +318,7 @@ solveKnapsack:
         ADD X3, X3, X2          // X3 = &weights[i-1]
         LDUR X1, [X3, #0]       // X1 = *weights[i-1]
         CMP X1, X23             // if *weights[i-1] <= capacity
-        B.GT solveKnapsackSkip
+        B.GT sk_Skip
                 SUB X3, X23, X1         //Saving params
                 ADD X0, X20, XZR        
                 ADD X1, X21, XZR       
@@ -337,10 +337,10 @@ solveKnapsack:
                 ADD X1, X0, X1          // X0 = take
                 ADD X0, X19, XZR        // x1 = skip
                 BL max2                         // X0 set to best
-solveKnapsackSkip:      
+sk_Skip:      
 
 
-solveKnapsackEnd:
+sk_End:
                 STUR X0, [X26, #0]  // Save best in *slot
                 LDUR X26, [SP, #72]     //Restore original X26
         LDUR X25, [SP, #64]     //Restore original X25
