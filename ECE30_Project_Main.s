@@ -199,7 +199,8 @@ max2:
         B.GT endmax2              //Branch to endmax2 if  a > b 
         ADD X0, X1, XZR           //else: Return b by copying it into X0
         
-endmax2:BR     LR                 //Return to caller 
+endmax2:
+        BR     LR                 //Return to caller 
 
 
         //YOUR CODE ENDS HERE
