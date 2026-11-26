@@ -318,7 +318,7 @@ solveKnapsack:
         ADD X3, X3, X2          // X3 = &weights[i-1]
         LDUR X1, [X3, #0]       // X1 = *weights[i-1]
         CMP X1, X23             // if *weights[i-1] <= capacity
-        B.GT sk_Skip
+        B.GT sk_End
                 SUB X3, X23, X1         //Saving params
                 ADD X0, X20, XZR        
                 ADD X1, X21, XZR       
@@ -337,8 +337,6 @@ solveKnapsack:
                 ADD X1, X0, X1          // X0 = take
                 ADD X0, X19, XZR        // x1 = skip
                 BL max2                         // X0 set to best
-sk_Skip:      
-
 
 sk_End:
                 STUR X0, [X26, #0]  // Save best in *slot
